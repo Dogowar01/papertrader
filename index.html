@@ -1118,7 +1118,7 @@ function openCryptoDossier(sym) {
       <div class="dstat"><div class="dstat-label">Rank</div><div class="dstat-value">#${d.market_cap_rank}</div></div>
     </div>`;
   drawPriceChart(); drawPerfChart();
-  runAnalysis(sym, type, d);
+  runAnalysis(sym, 'crypto', d);
 }
 
 function openStockDossier(sym) {
