@@ -1127,7 +1127,7 @@ function portfolioValue() {
 
 function updateHeader() {
   const pv=portfolioValue(), total=state.cash+pv, pnl=total-START_CASH;
-  document.getElementById('hdr-cash').textContent='$'+fmtK(state.cash);
+  document.getElementById('hdr-cash').textContent=fmtK(state.cash);
   const pnlEl=document.getElementById('hdr-pnl');
   pnlEl.textContent=(pnl>=0?'+':'')+' $'+fmtP(Math.abs(pnl));
   pnlEl.className='hstat-value '+(pnl>0?'pos':pnl<0?'neg':'');
@@ -1201,7 +1201,7 @@ function confirmReset() {
 
 // ── UTILS ─────────────────────────────────────────────────────────
 function fmtP(n) {
-  if(n===undefined||n===null) return '0.00';
+  if(n===undefined||n===null||n===0) return '0.00';
   if(n>=10000) return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   if(n>=1) return n.toFixed(2);
   if(n>=0.01) return n.toFixed(4);
