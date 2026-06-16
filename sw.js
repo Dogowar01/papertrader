@@ -3,7 +3,7 @@
  * Enables PWA install + basic offline shell caching
  */
 
-const CACHE = 'papertrader-v1';
+const CACHE = 'papertrader-v2';
 const SHELL = [
   './',
   './index.html',
@@ -27,12 +27,24 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network-first for API calls, cache-first for shell
   const url = new URL(e.request.url);
 
   if (url.hostname.includes('coingecko') || url.hostname.includes('workers.dev') || url.hostname.includes('cloudflare')) {
     // Always network for live data
     e.respondWith(fetch(e.request).catch(() => new Response('Offline', { status: 503 })));
+    return;
+  }
+
+  if (url.origin === location.origin) {
+    // Network-first for our own app shell, so updates show up immediately.
+    // Cache is only a fallback for offline use.
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const resClone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, resClone));
+        return res;
+      }).catch(() => caches.match(e.request))
+    );
     return;
   }
 
