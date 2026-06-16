@@ -394,24 +394,161 @@ header::before{
 .skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:3px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .skel-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(30,42,61,.4)}
+
+/* ── LEARN TAB ── */
+.learn-inner{flex:1;overflow-y:auto;padding:16px}
+.learn-header{margin-bottom:20px}
+.learn-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);margin-bottom:4px}
+.learn-subtitle{font-size:12px;color:var(--text2);line-height:1.5}
+.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.learn-card{
+  border-radius:12px;border:1px solid var(--border2);
+  padding:16px 14px;cursor:pointer;transition:all .15s;
+  position:relative;overflow:hidden;background:var(--surface2);
+}
+.learn-card:active{transform:scale(.97)}
+.learn-card-accent{height:3px;border-radius:3px;margin-bottom:12px}
+.learn-card.c-gold .learn-card-accent{background:linear-gradient(90deg,var(--gold),#f0c97a)}
+.learn-card.c-green .learn-card-accent{background:linear-gradient(90deg,#4ade80,#22c55e)}
+.learn-card.c-purple .learn-card-accent{background:linear-gradient(90deg,#a78bfa,#c084fc)}
+.learn-card.c-blue .learn-card-accent{background:linear-gradient(90deg,#60a5fa,#38bdf8)}
+.learn-card.c-orange .learn-card-accent{background:linear-gradient(90deg,#fb923c,#fbbf24)}
+.learn-card-icon{font-size:22px;margin-bottom:8px}
+.learn-card-title{font-weight:700;font-size:13px;margin-bottom:3px;line-height:1.3}
+.learn-card-sub{font-size:10px;color:var(--muted);line-height:1.3}
+.learn-card-count{margin-top:8px;font-size:9px;color:var(--muted)}
+.learn-ai-card{
+  border:1px solid rgba(200,169,110,.25);border-radius:12px;
+  background:rgba(200,169,110,.05);
+  padding:16px;margin-bottom:8px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;
+}
+.learn-ai-card:active{transform:scale(.98)}
+.learn-ai-icon{font-size:26px;flex-shrink:0}
+.learn-ai-title{font-weight:700;font-size:14px;color:var(--gold);margin-bottom:3px}
+.learn-ai-sub{font-size:12px;color:var(--text2);line-height:1.4}
+
+/* ── BOTTOM SHEET ── */
+.sheet-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.sheet-backdrop.show{opacity:1;pointer-events:all}
+.bottom-sheet{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surface);
+  border:1px solid var(--border2);border-bottom:none;
+  border-radius:18px 18px 0 0;
+  z-index:1001;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);
+  max-height:90vh;display:flex;flex-direction:column;
+}
+.bottom-sheet.show{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:10px auto 0}
+.sheet-scroll{flex:1;overflow-y:auto;padding:14px 16px}
+.sheet-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sheet-back-btn{
+  background:none;border:1px solid var(--border2);color:var(--text2);
+  padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
+.sheet-title{font-family:'Playfair Display',serif;font-size:21px;color:var(--text);margin-bottom:4px}
+.sheet-cat-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:16px}
+.sheet-body{font-size:13px;color:var(--text2);line-height:1.8}
+.sheet-body h3{color:var(--text);font-size:14px;font-weight:700;margin:16px 0 6px}
+.sheet-body h3:first-child{margin-top:0}
+.sheet-body p{margin-bottom:10px}
+.sheet-body ul{padding-left:18px;margin-bottom:10px}
+.sheet-body li{margin-bottom:5px}
+.sheet-body strong{color:var(--text);font-weight:600}
+.sheet-callout{
+  background:var(--gold-dim2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;
+  padding:10px 14px;margin:14px 0;font-size:12px;color:var(--text);
+}
+.topic-list{display:flex;flex-direction:column;gap:8px}
+.topic-item{
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:space-between;min-height:52px;
+}
+.topic-item:active{background:var(--surface3)}
+.topic-name{font-weight:600;font-size:13px}
+.topic-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.topic-arrow{color:var(--muted);font-size:16px}
+.ai-section{border-top:1px solid var(--border);margin-top:18px;padding-top:16px;padding-bottom:8px}
+.ai-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ai-section-label::after{content:'';flex:1;height:1px;background:var(--gold-dim)}
+.ai-chat-log{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:180px;overflow-y:auto}
+.ai-bubble{border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.6}
+.ai-bubble.user{background:var(--gold-dim);border:1px solid rgba(200,169,110,.2);color:var(--text);margin-left:32px}
+.ai-bubble.bot{background:var(--surface2);border:1px solid var(--border);color:var(--text2);margin-right:32px}
+.ai-input-row{display:flex;gap:8px}
+.ai-input{
+  flex:1;background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);padding:12px 14px;border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:13px;outline:none;
+  transition:border-color .15s;min-height:46px;
+}
+.ai-input::placeholder{color:var(--muted)}
+.ai-input:focus{border-color:var(--gold)}
+.ai-send{
+  background:var(--gold);color:#080500;
+  border:none;border-radius:8px;padding:0 16px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;
+  min-height:46px;flex-shrink:0;transition:opacity .15s;
+}
+.ai-send:active{opacity:.8}
+
+/* ── TOUCH TARGET UPGRADES ── */
+.nav-btn{min-height:50px !important}
+.mode-btn{min-height:44px !important}
+.exec-btn{min-height:52px !important;padding:16px !important}
+.preset{min-height:44px !important}
+.back-btn{min-height:44px !important;display:inline-flex;align-items:center}
+.chart-tab{min-height:36px !important;padding:6px 12px !important}
+.bstab{min-height:48px !important;padding:13px !important}
+.coin-icon{border-radius:10px !important}
+.pos-icon{border-radius:10px !important}
+
+/* ── HEADER HERO ── */
+.hdr-inner{display:flex;align-items:center;justify-content:space-between}
+.hdr-hero{text-align:center;flex:1}
+.hdr-total-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:2px}
+.hdr-total-val{font-family:'DM Mono',monospace;font-size:21px;font-weight:500;color:var(--gold);letter-spacing:-.02em}
+.hdr-sub-row{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:3px}
+.hdr-pnl-val{font-family:'DM Mono',monospace;font-size:11px;transition:color .3s}
+.hdr-pnl-val.pos{color:var(--green);text-shadow:0 0 10px rgba(74,222,128,.4)}
+.hdr-pnl-val.neg{color:var(--red)}
+.hdr-sep{width:1px;height:8px;background:var(--muted);opacity:.3}
+.hdr-cash-mini{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
+
+/* ── PORTFOLIO HERO ── */
+.portfolio-total-hero{padding:20px 16px 16px;background:linear-gradient(135deg,#0f1520,#111827);border-bottom:1px solid var(--border);text-align:center}
+.portfolio-total-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
+.portfolio-total-amt{font-family:'DM Mono',monospace;font-size:30px;font-weight:500;color:var(--gold);text-shadow:0 0 24px rgba(200,169,110,.3);letter-spacing:-.02em}
+.portfolio-total-pnl{font-family:'DM Mono',monospace;font-size:13px;margin-top:4px;transition:color .3s}
+.portfolio-total-pnl.pos{color:var(--green)}
+.portfolio-total-pnl.neg{color:var(--red)}
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <div class="logo-mark">Paper Trader</div>
-    <div class="logo-sub">Signal9 · Simulated</div>
-  </div>
-  <div class="hdr-stats">
-    <div class="hstat">
-      <div class="hstat-label">Cash</div>
-      <div class="hstat-value gold" id="hdr-cash">$10,000</div>
+  <div class="hdr-inner">
+    <div>
+      <div class="logo-mark">Paper Trader</div>
+      <div class="logo-sub">Signal9 · Simulated</div>
     </div>
-    <div class="hstat">
-      <div class="hstat-label">P&amp;L</div>
-      <div class="hstat-value" id="hdr-pnl">$0.00</div>
+    <div class="hdr-hero">
+      <div class="hdr-total-lbl">Portfolio</div>
+      <div class="hdr-total-val" id="hdr-total">$10,000</div>
+      <div class="hdr-sub-row">
+        <div class="hdr-pnl-val" id="hdr-pnl">+$0.00</div>
+        <div class="hdr-sep"></div>
+        <div class="hdr-cash-mini" id="hdr-cash">$10K cash</div>
+      </div>
     </div>
+    <div style="width:80px"></div>
   </div>
 </header>
 
@@ -468,26 +605,19 @@ header::before{
 
 <!-- PORTFOLIO -->
 <div class="screen" id="screen-portfolio">
-  <div class="portfolio-summary" id="portfolio-summary">
-    <div class="summary-row">
-      <div class="summary-block">
-        <div class="summary-label">Total Value</div>
-        <div class="summary-value gold" id="sum-total">$10,000.00</div>
-      </div>
-      <div class="summary-block" style="text-align:right">
-        <div class="summary-label">All-time P&amp;L</div>
-        <div class="summary-value" id="sum-pnl">$0.00</div>
-      </div>
+  <div class="portfolio-total-hero">
+    <div class="portfolio-total-lbl">Total Portfolio Value</div>
+    <div class="portfolio-total-amt" id="sum-total">$10,000.00</div>
+    <div class="portfolio-total-pnl" id="sum-pnl">+$0.00</div>
+  </div>
+  <div class="portfolio-summary" id="portfolio-summary" style="display:flex;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border)">
+    <div class="summary-block" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+      <div class="summary-label">Cash</div>
+      <div class="summary-value gold" id="sum-cash">$10,000.00</div>
     </div>
-    <div class="summary-row" style="margin-bottom:0">
-      <div class="summary-block">
-        <div class="summary-label">Cash</div>
-        <div class="summary-value" id="sum-cash">$10,000.00</div>
-      </div>
-      <div class="summary-block" style="text-align:right">
-        <div class="summary-label">Holdings</div>
-        <div class="summary-value" id="sum-holdings">$0.00</div>
-      </div>
+    <div class="summary-block" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+      <div class="summary-label">Holdings</div>
+      <div class="summary-value" id="sum-holdings">$0.00</div>
     </div>
   </div>
   <div class="portfolio-inner">
@@ -505,12 +635,73 @@ header::before{
   </div>
 </div>
 
+<!-- LEARN -->
+<div class="screen" id="screen-learn">
+  <div class="learn-inner">
+    <div class="learn-header">
+      <div class="learn-title">Learn to Trade</div>
+      <div class="learn-subtitle">Tap a topic to dive in. Ask AI anything.</div>
+    </div>
+    <div class="learn-ai-card" onclick="openAIChat()">
+      <div class="learn-ai-icon">🤖</div>
+      <div>
+        <div class="learn-ai-title">Ask the AI Tutor</div>
+        <div class="learn-ai-sub">Ask anything about trading, charts, crypto or stocks</div>
+      </div>
+    </div>
+    <div class="learn-grid">
+      <div class="learn-card c-gold" onclick="openLearnCategory('start')">
+        <div class="learn-card-accent"></div>
+        <div class="learn-card-icon">🚀</div>
+        <div class="learn-card-title">Getting Started</div>
+        <div class="learn-card-sub">New to trading? Start here</div>
+        <div class="learn-card-count">4 topics</div>
+      </div>
+      <div class="learn-card c-green" onclick="openLearnCategory('charts')">
+        <div class="learn-card-accent"></div>
+        <div class="learn-card-icon">📊</div>
+        <div class="learn-card-title">Reading Charts</div>
+        <div class="learn-card-sub">Understand price action</div>
+        <div class="learn-card-count">4 topics</div>
+      </div>
+      <div class="learn-card c-purple" onclick="openLearnCategory('crypto')">
+        <div class="learn-card-accent"></div>
+        <div class="learn-card-icon">₿</div>
+        <div class="learn-card-title">Crypto Basics</div>
+        <div class="learn-card-sub">Blockchain & digital assets</div>
+        <div class="learn-card-count">4 topics</div>
+      </div>
+      <div class="learn-card c-blue" onclick="openLearnCategory('stocks')">
+        <div class="learn-card-accent"></div>
+        <div class="learn-card-icon">🏢</div>
+        <div class="learn-card-title">Stock Fundamentals</div>
+        <div class="learn-card-sub">How companies & markets work</div>
+        <div class="learn-card-count">4 topics</div>
+      </div>
+      <div class="learn-card c-orange" onclick="openLearnCategory('risk')" style="grid-column:1/-1">
+        <div class="learn-card-accent"></div>
+        <div class="learn-card-icon">🛡️</div>
+        <div class="learn-card-title">Risk Management</div>
+        <div class="learn-card-sub">Protect your capital — the most important skill of all</div>
+        <div class="learn-card-count">4 topics</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM SHEET (Learn) -->
+<div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheet()"></div>
+<div class="bottom-sheet" id="bottom-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-scroll" id="sheet-content"></div>
+</div>
+
 <nav class="bottom-nav">
   <button class="nav-btn on" onclick="goScreen('market',this)" id="nav-market"><span class="nav-icon">📈</span>Markets</button>
-  <button class="nav-btn" onclick="goScreen('dossier',this)" id="nav-dossier"><span class="nav-icon">🔍</span>Analysis</button>
   <button class="nav-btn" onclick="goScreen('trade',this)" id="nav-trade"><span class="nav-icon">⚡</span>Trade</button>
   <button class="nav-btn" onclick="goScreen('portfolio',this)" id="nav-portfolio"><span class="nav-icon">💼</span>Portfolio</button>
   <button class="nav-btn" onclick="goScreen('history',this)" id="nav-history"><span class="nav-icon">📋</span>History</button>
+  <button class="nav-btn" onclick="goScreen('learn',this)" id="nav-learn"><span class="nav-icon">📚</span>Learn</button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -1136,16 +1327,24 @@ function portfolioValue() {
 
 function updateHeader() {
   const pv=portfolioValue(), total=state.cash+pv, pnl=total-START_CASH;
-  document.getElementById('hdr-cash').textContent=fmtK(state.cash);
-  const pnlEl=document.getElementById('hdr-pnl');
-  pnlEl.textContent=(pnl>=0?'+':'')+' $'+fmtP(Math.abs(pnl));
-  pnlEl.className='hstat-value '+(pnl>0?'pos':pnl<0?'neg':'');
-  document.getElementById('sum-total').textContent='$'+fmtP(total);
-  document.getElementById('sum-cash').textContent='$'+fmtP(state.cash);
-  document.getElementById('sum-holdings').textContent='$'+fmtP(pv);
-  const sp=document.getElementById('sum-pnl');
-  sp.textContent=(pnl>=0?'+':'')+' $'+fmtP(Math.abs(pnl));
-  sp.className='summary-value '+(pnl>0?'pos':pnl<0?'neg':'');
+  const pnlSign=pnl>=0?'+':'-', pnlAbs='$'+fmtP(Math.abs(pnl));
+  const pnlCls=pnl>0?'pos':pnl<0?'neg':'';
+  // Header hero
+  const htEl=document.getElementById('hdr-total');
+  if(htEl) htEl.textContent='$'+fmtP(total);
+  const hpEl=document.getElementById('hdr-pnl');
+  if(hpEl){hpEl.textContent=pnlSign+pnlAbs;hpEl.className='hdr-pnl-val '+(pnlCls||'');}
+  const hcEl=document.getElementById('hdr-cash');
+  if(hcEl) hcEl.textContent=fmtK(state.cash)+' cash';
+  // Portfolio screen
+  const stEl=document.getElementById('sum-total');
+  if(stEl) stEl.textContent='$'+fmtP(total);
+  const scEl=document.getElementById('sum-cash');
+  if(scEl) scEl.textContent='$'+fmtP(state.cash);
+  const shEl=document.getElementById('sum-holdings');
+  if(shEl) shEl.textContent='$'+fmtP(pv);
+  const spEl=document.getElementById('sum-pnl');
+  if(spEl){spEl.textContent=pnlSign+pnlAbs;spEl.className='portfolio-total-pnl '+(pnlCls||'');}
 }
 
 function renderPortfolio() {
@@ -1192,7 +1391,8 @@ function goScreen(name, btn) {
   currentScreen=name;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('screen-'+name).classList.add('on');
+  const sc=document.getElementById('screen-'+name);
+  if(sc) sc.classList.add('on');
   if(btn) btn.classList.add('on');
   if(name==='history') renderHistory();
   if(name==='portfolio') renderPortfolio();
@@ -1229,6 +1429,185 @@ function toast(msg,type='ok') {
   const el=document.getElementById('toast');
   el.textContent=msg; el.className=`toast ${type} show`;
   setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ── LEARN TAB ─────────────────────────────────────────────────────
+const LEARN_DATA = {
+  start: {
+    title:'Getting Started', color:'var(--gold)',
+    topics: [
+      { id:'paper', title:'What is Paper Trading?', sub:'Risk-free practice',
+        body:`<h3>Trading Without Real Money</h3><p>Paper trading means practising with virtual (fake) money. You experience the full buying and selling process — price moves, profits, losses — without any financial risk. It's the safest way to learn.</p><h3>Why It Matters</h3><p>Professional traders paper trade new strategies before risking real capital. Studies show that most new retail traders lose money in their first year. Paper trading lets you make every beginner mistake for free.</p><h3>What to Focus On</h3><ul><li><strong>Decision-making:</strong> How does it feel when a trade goes against you?</li><li><strong>Discipline:</strong> Can you follow your own rules?</li><li><strong>Record keeping:</strong> What worked, what didn't, and why?</li></ul><div class="sheet-callout">The goal of paper trading is not just profit — it's to understand your own psychology and decision-making process.</div>` },
+      { id:'markets', title:'How Markets Work', sub:'Supply, demand & price',
+        body:`<h3>Price = Supply vs Demand</h3><p>Every price you see is the result of buyers and sellers agreeing on a value at a specific moment. When more people want to buy than sell, prices rise. When more want to sell, prices fall.</p><h3>Market Participants</h3><ul><li><strong>Retail traders</strong> — individuals like you</li><li><strong>Institutional investors</strong> — banks, hedge funds, pension funds</li><li><strong>Market makers</strong> — provide liquidity by always quoting buy and sell prices</li></ul><h3>24/7 vs Market Hours</h3><p>Stock markets (NYSE, ASX) have fixed hours — typically 9:30am–4pm local time. Crypto markets never close. This means crypto can move dramatically while you sleep.</p><div class="sheet-callout">Price is not determined by the "worth" of something — it's determined by what someone is willing to pay right now.</div>` },
+      { id:'bullbear', title:'Bull & Bear Markets', sub:'Market cycles explained',
+        body:`<h3>The Two Phases</h3><p>A <strong>bull market</strong> is a sustained period of rising prices — typically defined as a 20%+ gain. Optimism is high, buying is heavy. A <strong>bear market</strong> is the opposite: 20%+ decline, pessimism, heavy selling.</p><h3>Why They Happen</h3><p>Bull markets are driven by strong economies, corporate earnings growth, low interest rates, and investor confidence. Bear markets follow economic slowdowns, rising rates, geopolitical shocks, or the bursting of speculative bubbles.</p><h3>What to Do</h3><ul><li>In a bull market: trend-following strategies tend to work well</li><li>In a bear market: capital preservation becomes the priority</li><li>Timing the exact top or bottom is nearly impossible — even for professionals</li></ul><div class="sheet-callout">Markets can stay irrational longer than you can stay solvent. Never fight the trend with leverage.</div>` },
+      { id:'orders', title:'Types of Orders', sub:'Market, limit, stop',
+        body:`<h3>Market Order</h3><p>Executes immediately at the best available price. Fast but you don't control the exact price — especially in fast-moving or thin markets.</p><h3>Limit Order</h3><p>You set the exact price you want. A <strong>buy limit</strong> fills at your price or lower; a <strong>sell limit</strong> fills at your price or higher. If the price never reaches your level, it doesn't fill.</p><h3>Stop Order</h3><p>Triggers a market order when price hits a level. Used for <strong>stop-losses</strong> (exit if price drops to X) or <strong>stop-entries</strong> (buy if price breaks above X). Critical for risk management.</p><h3>Stop-Limit Order</h3><p>Combines both — triggers at the stop price but only fills at the limit price or better. Safer but may not fill during fast crashes.</p><div class="sheet-callout">In Paper Trader, all trades execute at the current market price (a market order). In real life you'd use limits to get better fills.</div>` },
+    ]
+  },
+  charts: {
+    title:'Reading Charts', color:'#4ade80',
+    topics: [
+      { id:'candles', title:'Candlestick Charts', sub:'Reading price bars',
+        body:`<h3>What a Candle Shows</h3><p>Each candlestick represents price action over a set time period (1 hour, 1 day, etc.). It shows four prices: <strong>Open, High, Low, Close</strong>.</p><h3>Anatomy</h3><ul><li><strong>Body:</strong> the rectangle between open and close</li><li><strong>Wick/Shadow:</strong> thin lines above and below the body showing the high and low</li><li><strong>Green candle:</strong> price closed higher than it opened (bullish)</li><li><strong>Red candle:</strong> price closed lower than it opened (bearish)</li></ul><h3>Key Patterns</h3><ul><li><strong>Doji:</strong> tiny body — indecision, potential reversal</li><li><strong>Hammer:</strong> long lower wick — buyers stepped in, bullish signal</li><li><strong>Shooting star:</strong> long upper wick — sellers rejected higher prices, bearish</li><li><strong>Engulfing:</strong> one candle's body fully covers the previous — strong reversal signal</li></ul><div class="sheet-callout">No single candle is a reliable signal on its own. Always look at the surrounding context and trend.</div>` },
+      { id:'sr', title:'Support & Resistance', sub:'Price memory levels',
+        body:`<h3>The Core Concept</h3><p><strong>Support</strong> is a price level where buying pressure has previously stopped a decline. <strong>Resistance</strong> is where selling pressure has previously stopped a rally. Price tends to react at these levels.</p><h3>Why They Work</h3><p>Markets have memory. Traders who bought at a level and watched price fall will sell when it returns (to break even). This creates repeatable supply/demand at known prices.</p><h3>How to Spot Them</h3><ul><li>Look for price "bouncing" off the same level multiple times</li><li>Round numbers ($50,000 BTC, $200 AAPL) attract attention</li><li>Previous highs and lows become future support/resistance</li><li>When resistance is broken, it often becomes support (and vice versa)</li></ul><div class="sheet-callout">The more times a level is tested without breaking, the more significant it is — but also the more likely it eventually breaks.</div>` },
+      { id:'trends', title:'Trend Lines & Patterns', sub:'Spotting direction',
+        body:`<h3>An Uptrend</h3><p>Defined by <strong>higher highs and higher lows</strong>. Each pullback stays above the previous pullback — buyers are in control. Draw a trend line connecting the lows.</p><h3>A Downtrend</h3><p>Defined by <strong>lower highs and lower lows</strong>. Each rally is weaker than the last — sellers dominate. Draw a trend line connecting the highs.</p><h3>Common Chart Patterns</h3><ul><li><strong>Head & Shoulders:</strong> three peaks, middle highest — bearish reversal</li><li><strong>Double Bottom:</strong> two similar lows — bullish reversal</li><li><strong>Triangle:</strong> tightening range — breakout imminent (direction unclear)</li><li><strong>Flag:</strong> brief consolidation in a trend — continuation likely</li></ul><div class="sheet-callout">"The trend is your friend until it ends." Trading with the trend rather than against it dramatically improves your odds.</div>` },
+      { id:'volume', title:'Volume Analysis', sub:'Confirming moves',
+        body:`<h3>What Volume Tells You</h3><p>Volume is the number of shares or coins traded in a period. It measures the strength of conviction behind a price move. High volume on a breakout = genuine move. Low volume = potentially false move.</p><h3>Key Rules</h3><ul><li><strong>Volume confirms trend:</strong> rising volume on up-days = strong bull trend</li><li><strong>Climax volume:</strong> extremely high volume after a long move often signals exhaustion</li><li><strong>Divergence:</strong> price making new highs but volume declining = trend weakening</li></ul><h3>On-Balance Volume (OBV)</h3><p>A running total that adds volume on up-days and subtracts on down-days. When OBV rises before price, it signals accumulation (smart money buying quietly).</p><div class="sheet-callout">Never trade a breakout on low volume — it's likely to fail. Wait for volume to confirm the move.</div>` },
+    ]
+  },
+  crypto: {
+    title:'Crypto Basics', color:'#a78bfa',
+    topics: [
+      { id:'whatis', title:'What is Cryptocurrency?', sub:'Digital money explained',
+        body:`<h3>The Simple Version</h3><p>Cryptocurrency is digital money secured by cryptography rather than a government or bank. It exists on a decentralised network — no single company or country controls it.</p><h3>Key Properties</h3><ul><li><strong>Decentralised:</strong> runs on thousands of computers worldwide simultaneously</li><li><strong>Permissionless:</strong> anyone can use it without approval</li><li><strong>Transparent:</strong> all transactions are recorded on a public ledger</li><li><strong>Scarce:</strong> most have a fixed maximum supply (Bitcoin: 21 million)</li></ul><h3>What Gives It Value?</h3><p>Supply and demand — just like gold. But also: network effect (more users = more valuable), utility (what you can do with it), and speculative demand (belief it will be worth more later).</p><div class="sheet-callout">Crypto is highly volatile. A 50% crash is not unusual. Never invest more than you can afford to lose.</div>` },
+      { id:'blockchain', title:'How Blockchain Works', sub:'The technology underneath',
+        body:`<h3>A Shared Ledger</h3><p>A blockchain is a database shared across thousands of computers. Every transaction is grouped into a "block" and added to a chain of previous blocks. Once written, it can't be changed without redoing all subsequent blocks — making fraud extremely difficult.</p><h3>Mining & Validation</h3><p>Bitcoin uses <strong>Proof of Work</strong> — miners compete to solve complex puzzles. The winner adds the next block and earns new Bitcoin. This secures the network but uses significant energy.</p><p>Ethereum now uses <strong>Proof of Stake</strong> — validators lock up (stake) their ETH as collateral. If they try to cheat, they lose their stake. More energy-efficient.</p><h3>Why It Matters for Trading</h3><p>On-chain data (wallet activity, exchange inflows, active addresses) can give signals about market sentiment before it shows in price.</p><div class="sheet-callout">You can send Bitcoin to anyone, anywhere, in minutes, without a bank. No ID required. That's a genuinely revolutionary capability.</div>` },
+      { id:'types', title:'Major Crypto Types', sub:'Beyond just Bitcoin',
+        body:`<h3>Bitcoin (BTC)</h3><p>The original. Digital gold — primarily a store of value and inflation hedge. Limited supply of 21 million. The most liquid and widely accepted.</p><h3>Smart Contract Platforms</h3><p><strong>Ethereum (ETH)</strong> — programmable blockchain for apps, DeFi, and NFTs. <strong>Solana (SOL)</strong> — faster and cheaper than Ethereum. <strong>Avalanche (AVAX)</strong> — high speed, multiple blockchains.</p><h3>Stablecoins</h3><p>Pegged to $1 USD (USDC, USDT). Used to stay in crypto markets without price exposure. Not investment vehicles.</p><h3>DeFi Tokens</h3><p><strong>Uniswap (UNI), Chainlink (LINK)</strong> — tokens that power decentralised financial services. Higher risk, but potentially higher reward than larger caps.</p><div class="sheet-callout">When Bitcoin drops sharply, most other cryptos drop more. This is called "correlation." Diversifying within crypto doesn't reduce this risk much.</div>` },
+      { id:'vsstock', title:'Crypto vs Stocks', sub:'Key differences',
+        body:`<h3>Market Hours</h3><p>Stocks trade 9:30am–4pm local time on weekdays. Crypto trades 24/7/365 — including Christmas. This means crypto can move dramatically overnight or on weekends when you're not watching.</p><h3>Volatility</h3><p>Stocks: a 2% daily move is significant. Crypto: a 10% daily move is common. Bitcoin has dropped 80%+ multiple times in its history — and recovered each time.</p><h3>Regulation</h3><p>Stocks are highly regulated. Crypto is partially regulated and rules vary by country. This means less investor protection but also fewer restrictions on who can trade.</p><h3>Ownership</h3><p>A stock is a share of a real company with earnings and assets. Crypto's value comes from network utility and belief. There's no fundamental floor to crypto price.</p><div class="sheet-callout">Crypto is better for short-term speculation due to volatility. Stocks are better for long-term wealth building due to compound earnings growth.</div>` },
+    ]
+  },
+  stocks: {
+    title:'Stock Fundamentals', color:'#60a5fa',
+    topics: [
+      { id:'whatstock', title:'What Are Stocks?', sub:'Owning a piece of a company',
+        body:`<h3>Equity Ownership</h3><p>A stock (or share) is a unit of ownership in a company. If Apple has 15 billion shares outstanding and you own 100, you own 0.0000007% of Apple — including a proportional claim on its assets and earnings.</p><h3>Why Companies Issue Shares</h3><p>To raise money for growth without taking on debt. When a company "goes public" (IPO), it sells shares to the public for the first time. The founders and early investors get to cash out some of their ownership.</p><h3>How You Make Money</h3><ul><li><strong>Capital gains:</strong> buy at $150, sell at $200 = $50 profit per share</li><li><strong>Dividends:</strong> some companies pay a portion of profits to shareholders quarterly</li></ul><h3>Risk</h3><p>If a company goes bankrupt, shareholders are last in line — after debt holders. You can lose your entire investment. This is why diversification matters.</p><div class="sheet-callout">You don't need to time the perfect entry. Buying great companies at reasonable prices and holding for years is how most wealth is built in stocks.</div>` },
+      { id:'pe', title:'P/E Ratio Explained', sub:'Is a stock cheap or expensive?',
+        body:`<h3>What It Is</h3><p>The <strong>Price-to-Earnings ratio</strong> = Stock Price ÷ Earnings Per Share. It tells you how many dollars investors are paying for each dollar of company profit.</p><h3>Example</h3><p>Apple earns $6 per share. If the stock trades at $180, the P/E is 30. That means investors pay $30 for every $1 of Apple's annual profit — expecting it to grow significantly.</p><h3>High vs Low P/E</h3><ul><li><strong>High P/E (25+):</strong> "growth stock" — investors expect big future earnings. More expensive, riskier if growth disappoints.</li><li><strong>Low P/E (under 15):</strong> "value stock" — cheap relative to earnings. May be cheap for a reason (declining business) or genuinely undervalued.</li></ul><h3>Market Average</h3><p>The S&P 500's long-run average P/E is around 15–18. Above 25 market-wide suggests elevated valuations.</p><div class="sheet-callout">P/E only works for companies with positive earnings. For unprofitable growth companies (many tech startups), use Price/Sales or EV/Revenue instead.</div>` },
+      { id:'earnings', title:'Earnings & Revenue', sub:'What the numbers mean',
+        body:`<h3>Revenue</h3><p>The total money a company takes in from selling its products or services. Also called "top line" or "sales." A company can grow revenue and still lose money.</p><h3>Earnings (Net Income)</h3><p>What's left after all costs: wages, rent, taxes, interest. The "bottom line." This is what flows to shareholders.</p><h3>Earnings Per Share (EPS)</h3><p>Net income ÷ number of shares. This is what drives the P/E ratio and what analysts forecast.</p><h3>Earnings Season</h3><p>Four times a year, every public company reports actual results vs analyst expectations. A "beat" (better than expected) often sends shares up sharply. A "miss" can crash the stock even if the company is profitable.</p><div class="sheet-callout">A company that beats earnings but lowers future guidance often falls anyway. Markets trade on what's coming, not what just happened.</div>` },
+      { id:'sectors', title:'Sectors & Indices', sub:'How markets are organised',
+        body:`<h3>The 11 GICS Sectors</h3><ul><li>Technology (Apple, Nvidia, Microsoft)</li><li>Healthcare (Johnson & Johnson, Pfizer)</li><li>Financials (JPMorgan, Visa, Bank of America)</li><li>Consumer Discretionary (Amazon, Tesla, Disney)</li><li>Energy (ExxonMobil, Chevron)</li><li>Communication Services (Meta, Google, Netflix)</li><li>…plus Industrials, Materials, Utilities, Real Estate, Consumer Staples</li></ul><h3>Market Indices</h3><p><strong>S&P 500:</strong> 500 largest US companies — the benchmark. <strong>Nasdaq 100:</strong> 100 largest non-financial Nasdaq companies, tech-heavy. <strong>Dow Jones:</strong> 30 "blue chip" US companies, price-weighted.</p><h3>Why Sectors Matter</h3><p>Sectors rotate in and out of favour with the economic cycle. In recessions, utilities and healthcare outperform. In booms, technology and consumer discretionary lead.</p><div class="sheet-callout">You can track sector performance to understand where institutional money is flowing — this often predicts which individual stocks will lead next.</div>` },
+    ]
+  },
+  risk: {
+    title:'Risk Management', color:'#fb923c',
+    topics: [
+      { id:'sizing', title:'Position Sizing', sub:'How much to put in a trade',
+        body:`<h3>The Most Important Decision</h3><p>Before asking "what to buy," ask "how much to risk." Position sizing is the single most impactful factor on long-term trading survival. Get this wrong and no analysis helps.</p><h3>The 1–2% Rule</h3><p>Never risk more than 1–2% of your total capital on a single trade. On a $10,000 account, that means risking at most $100–$200. If you're wrong, you've barely felt it.</p><h3>Why Small Risks Win</h3><p>With a 1% risk rule, you can lose 20 trades in a row and still have 82% of your capital left. With a 10% risk per trade, 10 losses would wipe you out.</p><div class="sheet-callout">Bigger position sizes feel exciting. They're also the fastest way to blow up an account. Start smaller than feels comfortable.</div>` },
+      { id:'diversify', title:'Diversification', sub:'Don\'t put everything in one place',
+        body:`<h3>The Core Idea</h3><p>Spread your capital across multiple assets so that a single bad trade or crash doesn't destroy your portfolio. If one stock crashes 80%, but it's only 5% of your portfolio, you've lost 4% overall — manageable.</p><h3>What to Diversify</h3><ul><li><strong>Assets:</strong> mix stocks and crypto (though they're increasingly correlated)</li><li><strong>Sectors:</strong> don't put everything in tech</li><li><strong>Geography:</strong> US, international, emerging markets</li><li><strong>Time:</strong> don't deploy all capital at once (dollar-cost averaging)</li></ul><h3>Limits of Diversification</h3><p>Diversification reduces <strong>specific risk</strong> (one company going bust). It does not protect you from <strong>systematic risk</strong> (entire market crashing). In a crash, almost everything falls together.</p><div class="sheet-callout">Diversification is the only free lunch in investing. Use it — but don't mistake it for crash protection.</div>` },
+      { id:'stoploss', title:'Stop Losses', sub:'Cutting losers before they grow',
+        body:`<h3>What a Stop Loss Is</h3><p>A predetermined price at which you exit a losing trade. You decide before entering: "If this goes against me by X%, I'm out." Setting it in advance removes emotion from the decision.</p><h3>Where to Place It</h3><ul><li>Below a key support level (technical stop)</li><li>A fixed percentage below entry (e.g. 5–8%)</li><li>Below a recent swing low (structure-based)</li></ul><h3>The Psychology Problem</h3><p>Moving a stop loss lower because "it'll come back" is one of the most common and destructive trading habits. The market doesn't care what price you bought at.</p><h3>Trailing Stops</h3><p>A stop that moves up with price — locking in profits. If BTC rises from $60K to $70K and your trailing stop is 10% below peak, it now sits at $63K — protecting your gain.</p><div class="sheet-callout">Taking a 5% loss is a professional decision. Holding through a 40% loss hoping for recovery is a mistake that defines most losing traders.</div>` },
+      { id:'onerule', title:'The 1% Rule & Risk-Reward', sub:'Thinking about every trade',
+        body:`<h3>Risk-Reward Ratio</h3><p>Before entering a trade, know your potential gain vs your potential loss. A 1:2 risk-reward means you risk $100 to make $200. Even if only 40% of your trades win, you're profitable.</p><h3>The Maths</h3><p>10 trades at 1:2 risk-reward with 40% win rate:<br>4 wins × $200 = $800 gained<br>6 losses × $100 = $600 lost<br><strong>Net profit: $200</strong></p><p>This is why a strategy with more losers than winners can still be profitable — what matters is the ratio of win size to loss size.</p><h3>Minimum 1:1.5</h3><p>Never take a trade where you risk more than you can realistically win. If your stop loss is $200 away but your target is $100 away, skip the trade.</p><div class="sheet-callout">Professional traders often have win rates of 40–50%. Their edge comes from cutting losses quickly and letting winners run — not from being right more often.</div>` },
+    ]
+  }
+};
+
+let learnChats = {};
+let currentTopicCtx = null;
+
+function openLearnCategory(catId) {
+  const cat = LEARN_DATA[catId];
+  if (!cat) return;
+  const html = `
+    <div class="sheet-title">${cat.title}</div>
+    <div class="sheet-cat-label">Select a topic to learn</div>
+    <div class="topic-list">
+      ${cat.topics.map(t => `
+        <div class="topic-item" onclick="openLearnTopic('${catId}','${t.id}')">
+          <div><div class="topic-name">${t.title}</div><div class="topic-sub">${t.sub}</div></div>
+          <div class="topic-arrow">›</div>
+        </div>`).join('')}
+    </div>`;
+  openSheet(html);
+}
+
+function openLearnTopic(catId, topicId) {
+  const cat = LEARN_DATA[catId];
+  const topic = cat?.topics.find(t => t.id === topicId);
+  if (!topic) return;
+  currentTopicCtx = {catId, topicId, title: topic.title, catTitle: cat.title};
+  const chatKey = `${catId}_${topicId}`;
+  if (!learnChats[chatKey]) learnChats[chatKey] = [];
+  const chatHtml = renderAIChat(chatKey);
+  const html = `
+    <div class="sheet-nav">
+      <button class="sheet-back-btn" onclick="openLearnCategory('${catId}')">← ${cat.title}</button>
+    </div>
+    <div class="sheet-title">${topic.title}</div>
+    <div class="sheet-cat-label">${cat.title}</div>
+    <div class="sheet-body">${topic.body}</div>
+    <div class="ai-section">
+      <div class="ai-section-label">Ask AI Tutor</div>
+      <div class="ai-chat-log" id="ai-chat-log">${chatHtml}</div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="ai-input" type="text" placeholder="Ask a question about ${topic.title}…" onkeydown="if(event.key==='Enter')sendAIQuestion()">
+        <button class="ai-send" onclick="sendAIQuestion()">Ask</button>
+      </div>
+    </div>`;
+  openSheet(html);
+}
+
+function openAIChat() {
+  currentTopicCtx = null;
+  const chatKey = 'general';
+  if (!learnChats[chatKey]) learnChats[chatKey] = [];
+  const chatHtml = renderAIChat(chatKey);
+  const html = `
+    <div class="sheet-title">AI Trading Tutor</div>
+    <div class="sheet-cat-label">Ask anything about trading, markets, or investing</div>
+    <div class="ai-chat-log" id="ai-chat-log">${chatHtml || '<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px">Ask me anything! Try: "What is a candlestick?" or "Explain DeFi"</div>'}</div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" type="text" placeholder="Type your question…" onkeydown="if(event.key==='Enter')sendAIQuestion()">
+      <button class="ai-send" onclick="sendAIQuestion()">Ask</button>
+    </div>`;
+  openSheet(html);
+}
+
+function renderAIChat(chatKey) {
+  return (learnChats[chatKey] || []).map(m =>
+    `<div class="ai-bubble ${m.role}">${m.text}</div>`
+  ).join('');
+}
+
+async function sendAIQuestion() {
+  const inp = document.getElementById('ai-input');
+  const log = document.getElementById('ai-chat-log');
+  if (!inp || !log) return;
+  const q = inp.value.trim(); if (!q) return;
+  inp.value = '';
+
+  const chatKey = currentTopicCtx ? `${currentTopicCtx.catId}_${currentTopicCtx.topicId}` : 'general';
+  if (!learnChats[chatKey]) learnChats[chatKey] = [];
+  learnChats[chatKey].push({role:'user', text:q});
+  log.innerHTML = renderAIChat(chatKey) + '<div class="ai-bubble bot" id="ai-typing">Thinking…</div>';
+  log.scrollTop = log.scrollHeight;
+
+  const systemCtx = currentTopicCtx
+    ? `You are a concise trading education assistant in a mobile paper trading app. The user is learning about "${currentTopicCtx.title}" (category: ${currentTopicCtx.catTitle}). Answer in 2-4 short sentences, in simple language for beginners. Use no markdown formatting.`
+    : `You are a concise trading education assistant in a mobile paper trading app. The user may ask about stocks, crypto, trading strategies, charts, or investing concepts. Answer in 2-4 short sentences, in simple language for beginners. Use no markdown formatting.`;
+
+  const messages = [{role:'user', content: systemCtx + '\n\nUser question: ' + q}];
+  try {
+    const res = await fetch(`${WORKER_URL}/ai`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-haiku-4-5-20251001', max_tokens:300, messages})
+    });
+    const data = await res.json();
+    const answer = data.content?.[0]?.text || 'Sorry, I could not get a response.';
+    learnChats[chatKey].push({role:'bot', text:answer});
+  } catch {
+    learnChats[chatKey].push({role:'bot', text:'Could not reach AI — check your connection and try again.'});
+  }
+  const logEl = document.getElementById('ai-chat-log');
+  if (logEl) { logEl.innerHTML = renderAIChat(chatKey); logEl.scrollTop = logEl.scrollHeight; }
+}
+
+function openSheet(html) {
+  document.getElementById('sheet-content').innerHTML = html;
+  document.getElementById('sheet-backdrop').classList.add('show');
+  document.getElementById('bottom-sheet').classList.add('show');
+}
+function closeSheet() {
+  document.getElementById('sheet-backdrop').classList.remove('show');
+  document.getElementById('bottom-sheet').classList.remove('show');
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
