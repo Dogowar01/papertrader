@@ -4,8 +4,8 @@
   "description": "Practice crypto trading with real live prices and fake money. Signal9 Apps.",
   "start_url": "/papertrader/",
   "display": "standalone",
-  "background_color": "#080b12",
-  "theme_color": "#080b12",
+  "background_color": "#05060c",
+  "theme_color": "#05060c",
   "orientation": "portrait-primary",
   "icons": [
     {
