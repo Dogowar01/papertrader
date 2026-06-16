@@ -132,11 +132,7 @@ header::after{
 .bottom-nav{
   display:flex;flex-shrink:0;
   padding:8px 8px calc(8px + var(--safe-bot));
-  border-radius:22px 22px 0 0;
-  background:linear-gradient(160deg,rgba(20,27,44,.95),rgba(8,11,20,.97));
-  border-top:1px solid rgba(255,255,255,.09);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 -8px 28px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);
+  background:red;
 }
 .nav-btn{
   flex:1;padding:9px 4px;background:none;border:none;border-radius:16px;
@@ -732,6 +728,9 @@ header{
 /* subtle text glow for hero type */
 .logo-mark{text-shadow:0 2px 10px rgba(200,169,110,.3)}
 .dossier-sym,.trade-sym{text-shadow:0 2px 10px rgba(200,169,110,.25)}
+
+/* TEMP DIAGNOSTIC — remove after debugging bottom gap */
+body{background:blue !important}
 </style>
 </head>
 <body>
