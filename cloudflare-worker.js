@@ -46,14 +46,31 @@ export default {
       });
     }
 
-    // ── Finnhub proxy ────────────────────────────────────────
-    if (request.method === 'GET' && url.pathname.startsWith('/stocks/')) {
-      const fhPath = url.pathname.slice('/stocks/'.length);
-      const sep    = url.search ? '&' : '?';
-      const fhUrl  = `https://finnhub.io/api/v1/${fhPath}${url.search}${sep}token=${env.FINNHUB_API_KEY}`;
-      const fhRes  = await fetch(fhUrl, { headers: { 'Accept': 'application/json' } });
+    // ── Finnhub quote proxy ──────────────────────────────────
+    if (request.method === 'GET' && url.pathname.startsWith('/stocks/quote')) {
+      const sep   = url.search ? '&' : '?';
+      const fhUrl = `https://finnhub.io/api/v1/quote${url.search}${sep}token=${env.FINNHUB_API_KEY}`;
+      const fhRes = await fetch(fhUrl, { headers: { 'Accept': 'application/json' } });
       return new Response(await fhRes.text(), {
         status: fhRes.status,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      });
+    }
+
+    // ── Yahoo Finance history proxy (stock charts) ───────────
+    if (request.method === 'GET' && url.pathname.startsWith('/stocks/history/')) {
+      const symbol   = url.pathname.slice('/stocks/history/'.length);
+      const range    = url.searchParams.get('range')    || '3mo';
+      const interval = url.searchParams.get('interval') || '1d';
+      const yhUrl    = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${interval}&range=${range}`;
+      const yhRes    = await fetch(yhUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; PaperTrader/1.0)',
+          'Accept': 'application/json',
+        }
+      });
+      return new Response(await yhRes.text(), {
+        status: yhRes.status,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
       });
     }
