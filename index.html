@@ -529,6 +529,159 @@ header::before{
 .portfolio-total-pnl{font-family:'DM Mono',monospace;font-size:13px;margin-top:4px;transition:color .3s}
 .portfolio-total-pnl.pos{color:var(--green)}
 .portfolio-total-pnl.neg{color:var(--red)}
+
+/* ══════════════════════════════════════════════════════════
+   DEPTH & DIMENSION UPGRADE
+   ══════════════════════════════════════════════════════════ */
+
+/* ambient glow blobs drifting behind everything */
+body{position:relative}
+body::before, body::after{
+  content:'';position:fixed;z-index:0;pointer-events:none;
+  border-radius:50%;filter:blur(60px);opacity:.55;
+}
+body::before{
+  top:-120px;left:-80px;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(200,169,110,.2),transparent 70%);
+  animation:driftA 18s ease-in-out infinite;
+}
+body::after{
+  bottom:-100px;right:-100px;width:320px;height:320px;
+  background:radial-gradient(circle,rgba(45,212,191,.14),transparent 70%);
+  animation:driftB 22s ease-in-out infinite;
+}
+@keyframes driftA{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+@keyframes driftB{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-40px)}}
+header,.ticker-wrap,.screen,.bottom-nav,.sheet-backdrop,.bottom-sheet{position:relative;z-index:1}
+
+/* glass header with real elevation */
+header{
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 8px 24px rgba(0,0,0,.45),inset 0 -1px 0 rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+/* glass bottom nav, lifted off the page */
+.bottom-nav{
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 -10px 28px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.nav-btn.on .nav-icon{filter:drop-shadow(0 0 6px rgba(200,169,110,.6));transform:translateY(-1px);display:inline-block}
+
+/* embossed mode toggle */
+.mode-btn{box-shadow:0 2px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.02)}
+.mode-btn.on{
+  box-shadow:0 0 18px rgba(200,169,110,.25),0 3px 8px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);
+  transform:translateY(-1px);
+}
+
+/* ── FLOATING CARD LISTS — Markets, Portfolio, History ── */
+.coin-list{
+  background:radial-gradient(circle at 15% 0%,rgba(200,169,110,.06),transparent 45%),
+             radial-gradient(circle at 85% 30%,rgba(45,212,191,.05),transparent 45%),
+             var(--bg);
+  padding:8px 0 4px;
+}
+.coin-item{
+  margin:6px 12px;padding:13px 14px;border-radius:14px;border-bottom:none;
+  background:linear-gradient(145deg,var(--surface2),var(--surface));
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .12s,box-shadow .12s;
+}
+.coin-item:active{transform:scale(.98) translateY(1px);box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.03)}
+.coin-item.active{
+  background:linear-gradient(145deg,rgba(200,169,110,.14),var(--surface));
+  border-color:rgba(200,169,110,.35);
+  box-shadow:0 4px 18px rgba(200,169,110,.2),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.coin-item.active::before{content:none}
+.coin-icon{
+  background:linear-gradient(160deg,var(--surface3),var(--surface2) 60%,#0a0e16);
+  box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.08),inset 0 -2px 4px rgba(0,0,0,.3);
+}
+
+.pos-list,#hist-list{
+  background:radial-gradient(circle at 20% 0%,rgba(200,169,110,.05),transparent 45%),var(--bg);
+  padding:8px 0 4px;
+}
+.pos-item{
+  margin:6px 12px;padding:14px;border-radius:14px;border-bottom:none;
+  background:linear-gradient(145deg,var(--surface2),var(--surface));
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .12s;
+}
+.pos-item:active{transform:scale(.98)}
+.pos-icon{
+  background:linear-gradient(160deg,var(--surface3),#0a0e16);
+  box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.08);
+}
+.hist-item{
+  margin:6px 12px;padding:13px 14px;border-radius:14px;border-bottom:none;
+  background:linear-gradient(145deg,var(--surface2),var(--surface));
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* dossier header + stats as a raised card */
+.dossier-header{
+  background:linear-gradient(160deg,var(--surface2),var(--surface));
+  box-shadow:0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+  border-bottom:none;
+}
+.dossier-stats{
+  box-shadow:0 2px 8px rgba(0,0,0,.35) inset,inset 0 1px 0 rgba(255,255,255,.03);
+  background:rgba(0,0,0,.15);
+}
+
+/* chart depth */
+.chart-section{background:radial-gradient(circle at 50% 0%,rgba(200,169,110,.04),transparent 60%),var(--bg)}
+#price-chart,#perf-chart{filter:drop-shadow(0 4px 10px rgba(0,0,0,.3))}
+
+/* analysis card elevation */
+.analysis-card{
+  box-shadow:0 8px 28px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(160deg,var(--surface),var(--surface) 70%,#0a0e16);
+}
+.signal-cell{background:linear-gradient(160deg,var(--surface),var(--surface2))}
+
+/* trade screen — embossed controls */
+.bstab{box-shadow:0 3px 10px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03)}
+.bstab.buy.on,.bstab.sell.on{transform:translateY(-1px)}
+.form-inp{box-shadow:inset 0 2px 6px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.03)}
+.preset{box-shadow:0 2px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.03)}
+.order-preview{box-shadow:inset 0 2px 8px rgba(0,0,0,.35);background:linear-gradient(160deg,var(--surface2),var(--surface))}
+.exec-btn.buy{box-shadow:0 6px 20px rgba(74,222,128,.3),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -3px 6px rgba(0,0,0,.15)}
+.exec-btn.sell{box-shadow:0 6px 20px rgba(248,113,113,.3),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -3px 6px rgba(0,0,0,.15)}
+
+/* portfolio summary blocks */
+.portfolio-total-hero{box-shadow:inset 0 -16px 28px -16px rgba(0,0,0,.45)}
+.summary-block{
+  box-shadow:0 4px 12px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.03) !important;
+  background:linear-gradient(160deg,var(--surface2),var(--surface)) !important;
+}
+
+/* learn cards — real elevation, lift on press */
+.learn-card{
+  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.03);
+  background:linear-gradient(160deg,var(--surface2),var(--surface));
+}
+.learn-card:active{transform:scale(.96) translateY(1px);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.learn-ai-card{box-shadow:0 6px 20px rgba(200,169,110,.14),inset 0 1px 0 rgba(255,255,255,.04)}
+
+/* bottom sheet — frosted glass, strong lift shadow */
+.bottom-sheet{
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 -20px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(180deg,var(--surface2) 0%,var(--surface) 100%);
+}
+.topic-item{box-shadow:0 3px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.03)}
+
+/* subtle text glow for hero type */
+.logo-mark{text-shadow:0 2px 10px rgba(200,169,110,.3)}
+.dossier-sym,.trade-sym{text-shadow:0 2px 10px rgba(200,169,110,.25)}
 </style>
 </head>
 <body>
