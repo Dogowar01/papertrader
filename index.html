@@ -829,16 +829,25 @@ async function fetchOHLC(sym, days) {
 async function fetchStockCandles(sym, period) {
   const key = `stock_${sym}_${period}`;
   if (ohlcCache[key] && Date.now() - ohlcCache[key].ts < 5*60*1000) return ohlcCache[key].data;
-  const now   = Math.floor(Date.now() / 1000);
-  const days  = period === '1' ? 30 : period === '7' ? 60 : period === '30' ? 120 : 365;
-  const from  = now - days * 86400;
-  const res   = 'D';
+  const rangeMap    = {'1':'5d',  '7':'1mo', '30':'3mo', '90':'6mo'};
+  const intervalMap = {'1':'1h',  '7':'1d',  '30':'1d',  '90':'1d'};
+  const range    = rangeMap[period]    || '3mo';
+  const interval = intervalMap[period] || '1d';
   try {
-    const r = await fetch(`${WORKER_URL}/stocks/stock/candle?symbol=${sym}&resolution=${res}&from=${from}&to=${now}`);
+    const r = await fetch(`${WORKER_URL}/stocks/history/${sym}?range=${range}&interval=${interval}`);
     if (!r.ok) throw new Error();
-    const d = await r.json();
-    if (d.s !== 'ok' || !d.t) return null;
-    const data = d.t.map((ts, i) => [ts * 1000, d.o[i], d.h[i], d.l[i], d.c[i]]);
+    const json   = await r.json();
+    const result = json.chart?.result?.[0];
+    if (!result || !result.timestamp) return null;
+    const ts    = result.timestamp;
+    const quote = result.indicators.quote[0];
+    const data  = ts.map((t, i) => [
+      t * 1000,
+      quote.open[i]  ?? quote.close[i],
+      quote.high[i]  ?? quote.close[i],
+      quote.low[i]   ?? quote.close[i],
+      quote.close[i]
+    ]).filter(c => c[4] != null);
     ohlcCache[key] = {data, ts: Date.now()};
     return data;
   } catch { return null; }
