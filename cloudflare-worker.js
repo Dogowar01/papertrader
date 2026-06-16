@@ -2,46 +2,75 @@
  * Paper Trader — Cloudflare Worker
  * Signal9 Apps
  *
- * Deploy this at workers.cloudflare.com
- * Set an environment variable: ANTHROPIC_API_KEY = your key
+ * Required env vars:
+ *   ANTHROPIC_API_KEY   — your Anthropic key
+ *   COINGECKO_API_KEY   — free CoinGecko demo key
+ *   FINNHUB_API_KEY     — free Finnhub key (for stocks)
  *
- * This proxies requests from your GitHub Pages app to the Anthropic API,
- * keeping your API key secure and off the client side.
+ * Routes:
+ *   GET  /coingecko/*  → api.coingecko.com/api/v3/*
+ *   GET  /stocks/*     → finnhub.io/api/v1/*
+ *   POST /  or  /ai   → Anthropic /v1/messages
  */
 
-const ALLOWED_ORIGIN = '*'; // Restrict to your GitHub Pages URL in production
-                             // e.g. 'https://yourusername.github.io'
+const ALLOWED_ORIGIN = 'https://dogowar01.github.io';
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
 
-    // Handle CORS preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         headers: {
           'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type',
           'Access-Control-Max-Age': '86400',
         },
       });
     }
 
-    // Only allow POST
+    // ── CoinGecko proxy ──────────────────────────────────────
+    if (request.method === 'GET' && url.pathname.startsWith('/coingecko/')) {
+      const cgPath = url.pathname.slice('/coingecko/'.length);
+      const cgUrl  = `https://api.coingecko.com/api/v3/${cgPath}${url.search}`;
+      const headers = {
+        'Accept': 'application/json',
+        'User-Agent': 'PaperTrader/1.0 (Signal9 paper trading app)',
+      };
+      if (env.COINGECKO_API_KEY) headers['x-cg-demo-api-key'] = env.COINGECKO_API_KEY;
+      const cgRes = await fetch(cgUrl, { headers });
+      return new Response(await cgRes.text(), {
+        status: cgRes.status,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      });
+    }
+
+    // ── Finnhub proxy ────────────────────────────────────────
+    if (request.method === 'GET' && url.pathname.startsWith('/stocks/')) {
+      const fhPath = url.pathname.slice('/stocks/'.length);
+      const sep    = url.search ? '&' : '?';
+      const fhUrl  = `https://finnhub.io/api/v1/${fhPath}${url.search}${sep}token=${env.FINNHUB_API_KEY}`;
+      const fhRes  = await fetch(fhUrl, { headers: { 'Accept': 'application/json' } });
+      return new Response(await fhRes.text(), {
+        status: fhRes.status,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      });
+    }
+
+    // ── Anthropic proxy ──────────────────────────────────────
     if (request.method !== 'POST') {
       return new Response('Method not allowed', { status: 405 });
     }
-
-    // Parse incoming body from the app
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return new Response('Invalid JSON', { status: 400 });
+    if (url.pathname !== '/' && url.pathname !== '/ai') {
+      return new Response('Not found', { status: 404 });
     }
 
-    // Forward to Anthropic
-    const anthropicResponse = await fetch('https://api.anthropic.com/v1/messages', {
+    let body;
+    try { body = await request.json(); }
+    catch { return new Response('Invalid JSON', { status: 400 }); }
+
+    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,20 +78,15 @@ export default {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: body.model || 'claude-sonnet-4-6',
+        model:      body.model      || 'claude-sonnet-4-6',
         max_tokens: body.max_tokens || 1000,
-        messages: body.messages,
+        messages:   body.messages,
       }),
     });
 
-    const data = await anthropicResponse.json();
-
-    return new Response(JSON.stringify(data), {
-      status: anthropicResponse.status,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-      },
+    return new Response(JSON.stringify(await anthropicRes.json()), {
+      status: anthropicRes.status,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
     });
   },
 };
